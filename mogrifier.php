@@ -1,21 +1,21 @@
 <?php
 echo "\n\n";
-$dir = dirname(__FILE__).'/';
 
+$dir = isset($argv[1])? $argv[1] : dirname(__FILE__).'/';
 
 $files = ifiler::getFilesRecursive($dir,'jpg');
-
 printl('Founded '.count($files).' files');
+
 printl('Start workinng');
 
-$maxsize = 45*1024; 
+$minsize = 45*1024; 
 
 $totalsize = 0;
 
 $ot = array();
 foreach ($files as $i=>$file) {
 
-  if (filesize($dir.$file) > $maxsize) {
+	if (filesize($dir.$file) < $minsize) {
 		continue;
 	}
 
@@ -24,7 +24,7 @@ foreach ($files as $i=>$file) {
 }
 
 
-printl('Founded '.count($ot).' files more then '.$maxsize.' bytes');
+printl('Founded '.count($ot).' files more then '.$minsize.' bytes');
 printl("Total size is ".round($totalsize/1024/1024).' Mb');
 
 printl();
@@ -53,30 +53,9 @@ foreach ($ot as $file) {
 
 
 	$i++;
-
-	/*if ($i > 10) {
-		break;
-	}*/
-
-
-
 }
 
-
-foreach ($files as $file) {
-	//printl($file);
-}
-
-
-
-
-echo $dir;
-
-
-echo "\n\n";
-
-
-
+exit();
 
 function printl($st='') {
 	echo $st."\n";
